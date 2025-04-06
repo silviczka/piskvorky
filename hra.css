@@ -1,0 +1,138 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  background: linear-gradient(#615dad, #ffc8da);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+h1 {
+  font-family: Lobster, cursive;
+  font-size: calc(10vh - 3vw);
+  /*dynamic sizing based on screen width*/
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  min-width: 380px;
+  max-width: 80vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+  width: 100%;
+  text-align: center;
+}
+
+.action-bar {
+  max-width: 80vmin;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7em 0;
+}
+
+.active-player {
+  font-family: 'arial';
+  font-size: max(calc(3vh - 1vw), 1rem);
+  /*dynamicly resize active player elemnt; viewport height - viewportwidth makes sure the elements are smaller for wide screen and bigger for small screen; max is used to prevent elements from dissapearing and being still of readable size, it selects bigger of 2 values and uses it, while ignoring the smaller one*/
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 10px;
+
+}
+
+.active-player img {
+  /*I have used the image of circle instead of rounded square as suggested in hints of homework instructions*/
+  width: max(calc(2em - 1vw), 1.5em);
+  /*dynamic sizing of circle/cross elemnt based on screen width */
+  height: max(calc(2em - 1vw), 1.5em);
+}
+
+.navigation-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.navigation-btns a {
+  padding: max(calc(2vh - 1vw), 0.3vw) max(calc(2vh - 1vw), 0.3vw);
+  /*resizing dynamically the padding in reference to screen width, more detailsin the other bigger comment*/
+  border-radius: 0.5em;
+
+}
+
+.navigation-btns img {
+  width: max(calc(2em - 0.5vw), 1em);
+  /* Ensures image width is responsive and has a minimum size */
+  height: max(calc(2em - 0.5vw), 1em);
+  /* Ensures image height is responsive and has a minimum size */
+  /* object-fit: contain; */
+
+}
+
+.btn-home {
+  background: #1fcca4;
+}
+
+.btn-restart {
+  background: #0197f6;
+}
+
+a.btn-home:hover,
+a.btn-home:focus {
+  background: #1cbb96;
+}
+
+
+a.btn-restart:hover,
+a.btn-restart:focus {
+
+  background: #0090e9;
+}
+
+.cell:hover,
+.cell:focus {
+  background-color: #f3f0d9;
+}
+
+table {
+  width: 100%;
+  max-width: 80vmin;
+  aspect-ratio: 1/1;
+  border-collapse: collapse;
+  background: linear-gradient(#bdbaec, #fce1ea);
+  border: 1px solid black;
+}
+
+td {
+  border: 2px solid black;
+  height: 10%;
+  width: 10%;
+  text-align: center;
+}
+
+tr {
+  width: 100%;
+  display: table-row;
+  justify-content: space-around;
+}
+
+td:hover,
+td:focus {
+  background-color: #ddd9dff1;
+}
