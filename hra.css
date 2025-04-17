@@ -18,7 +18,7 @@ body {
 h1 {
   font-family: Lobster, cursive;
   font-size: calc(10vh - 3vw);
-  /*dynamic sizing based on screen width*/
+  /*dynamic sizing based on screen width, buttons bigger for fingers on cell phones*/
   color: #ffffff;
   display: flex;
   justify-content: center;
@@ -48,7 +48,7 @@ h1 {
 .active-player {
   font-family: 'arial';
   font-size: max(calc(3vh - 1vw), 1rem);
-  /*dynamicly resize active player elemnt; viewport height - viewportwidth makes sure the elements are smaller for wide screen and bigger for small screen; max is used to prevent elements from dissapearing and being still of readable size, it selects bigger of 2 values and uses it, while ignoring the smaller one*/
+  /*dynamicly resize active player elemnt; viewport height - viewportwidth makes sure the elements are smaller for wide screen and bigger for small screen where fingers must fit; max is used to prevent elements from dissapearing and being still of readable size, it selects bigger of 2 values and uses it, while ignoring the smaller one*/
   display: flex;
   align-items: center;
   color: white;
@@ -73,7 +73,6 @@ h1 {
   padding: max(calc(2vh - 1vw), 0.3vw) max(calc(2vh - 1vw), 0.3vw);
   /*resizing dynamically the padding in reference to screen width, more detailsin the other bigger comment*/
   border-radius: 0.5em;
-
 }
 
 .navigation-btns img {
@@ -81,7 +80,6 @@ h1 {
   /* Ensures image width is responsive and has a minimum size */
   height: max(calc(2em - 0.5vw), 1em);
   /* Ensures image height is responsive and has a minimum size */
-  /* object-fit: contain; */
 
 }
 
@@ -105,13 +103,9 @@ a.btn-restart:focus {
   background: #0090e9;
 }
 
-.cell:hover,
-.cell:focus {
-  background-color: #f3f0d9;
-}
-
 table {
-  width: 100%;
+  width: 110%;
+  height: 110%;
   max-width: 80vmin;
   aspect-ratio: 1/1;
   border-collapse: collapse;
@@ -124,6 +118,9 @@ td {
   height: 10%;
   width: 10%;
   text-align: center;
+  padding: 0;
+  user-select: none;
+  /* prevents text selection */
 }
 
 tr {
@@ -132,7 +129,46 @@ tr {
   justify-content: space-around;
 }
 
-td:hover,
-td:focus {
+td button {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+td button.cell--empty:hover,
+td button.cell--empty:focus {
   background-color: #ddd9dff1;
+}
+
+.board__field--circle {
+  background: url('podklady/circle_bl.svg') no-repeat center center;
+}
+
+.board__field--cross {
+  background: url('podklady/cross_bl.svg') no-repeat center center;
+}
+
+.board__field--circle,
+.board__field--cross {
+  animation: appear 0.15s ease-out;
+  background-size: 60%;
+}
+
+
+@keyframes appear {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
