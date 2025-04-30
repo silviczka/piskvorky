@@ -1,12 +1,15 @@
 let currentPlayer = 'circle';
 
 const toggleCurrentPlayer = () => {
+  const activePlayerImg = document.querySelector('.active-player img');
   if (currentPlayer === 'circle') {
     currentPlayer = 'cross';
-    document.querySelector('.active-player img').src = 'podklady/cross.svg';
+    activePlayerImg.src = 'podklady/cross.svg';
+    activePlayerImg.alt = 'cross-img';
   } else {
     currentPlayer = 'circle';
-    document.querySelector('.active-player img').src = 'podklady/circle.svg';
+    activePlayerImg.src = 'podklady/circle.svg';
+    activePlayerImg.alt = 'circle-img';
   }
 };
 
@@ -23,7 +26,7 @@ const placeSign = (event) => {
 };
 
 document.querySelectorAll('#row1 .cell').forEach((button) => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (event) => {
     console.log('Clicked on the cell.');
     placeSign(event);
     toggleCurrentPlayer();
