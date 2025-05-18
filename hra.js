@@ -1,5 +1,4 @@
 // import { findWinner } from 'https://unpkg.com/piskvorky@0.1.4';
-// import { findWinner } from './findWinner';
 import { myFindWinner } from './myFindWinner.js';
 
 let currentPlayer = 'circle';
@@ -31,10 +30,10 @@ const placeSign = (event) => {
     clickedCell.classList.add('board__field--cross');
   }
   clickedCell.disabled = true;
+  setBoardDisabled(true);
 };
 
-//check for winner
-const checkForWin = () => {
+const updateBoardState = () => {
   playBoard.forEach((cell, index) => {
     const row = Math.floor(index / 10);
     const col = index % 10;
@@ -44,13 +43,52 @@ const checkForWin = () => {
       boardState[row][col] = 'o';
     } else if (cell.classList.contains('board__field--cross')) {
       boardState[row][col] = 'x';
-    } else {
-      console.log(`Cell ${index} has no valid class assigned`);
     }
   });
+};
+
+const setBoardDisabled = (disabled) => {
+  playBoard.forEach((cell) => {
+    if (disabled) {
+      cell.disabled = true;
+    } else {
+      // Only enable empty cells
+      if (cell.classList.contains('cell--empty')) {
+        cell.disabled = false;
+      }
+    }
+  });
+};
+
+//computer is player x
+const getComputerMove = async () => {
+  updateBoardState();
+  const response = await fetch(
+    'https://piskvorky.czechitas-podklady.cz/api/suggest-next-move',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        board: boardState,
+        player: 'x',
+      }),
+    },
+  );
+  const data = await response.json();
+  const { x, y } = data.position;
+  const field = playBoard[x + y * 10];
+  // Manually update cell for computer move, toawaid async interfere with disabled timing
+  field.classList.remove('cell--empty');
+  field.classList.add('board__field--cross');
+  field.disabled = true;
+  setBoardDisabled(false);
+};
+
+//check for winner
+const checkForWin = () => {
+  updateBoardState();
+
   const winner = myFindWinner(boardState);
-  console.log('Winner:', winner);
-  console.log('Board State:', boardState);
 
   if (winner === 'o' || winner === 'x') {
     setTimeout(() => {
@@ -65,13 +103,18 @@ const checkForWin = () => {
   }
 };
 
-//main
+//main_launch npx serve
 playBoard.forEach((button) => {
-  button.addEventListener('click', (event) => {
-    console.log('Clicked on the cell.');
+  button.addEventListener('click', async (event) => {
+    if (button.disabled) return;
     placeSign(event);
-    toggleCurrentPlayer();
     checkForWin();
+    toggleCurrentPlayer();
+    if (currentPlayer === 'cross') {
+      await getComputerMove();
+      checkForWin();
+      toggleCurrentPlayer();
+    }
   });
 });
 
@@ -84,6 +127,5 @@ const checkIfRestart = document
       document.querySelector('a.btn-restart').href = 'hra.html';
     } else {
       event.preventDefault();
-      console.log('User declined restart');
     }
   });

@@ -20,7 +20,7 @@ export const myFindWinner = (boardState) => {
     for (let row = 0; row <= boardSize - WIN_LENGTH; row++) {
       const segment = [];
       for (let i = 0; i < WIN_LENGTH; i++) {
-        segment.push(boardState[row + i][col]);
+        segment.push(boardState[row + i][col]); //.push() adds new item to the end of an array
       }
       if (segment.every((cell) => cell === 'o')) return 'o';
       if (segment.every((cell) => cell === 'x')) return 'x';
